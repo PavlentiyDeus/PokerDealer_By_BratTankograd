@@ -31,8 +31,8 @@ public class CurrentDealer implements Dealer{
 
 
 //        проверка на высший Флэш
-//        cardsInGame=Stream.of("2H", "AH", "KH", "6H","8C","10S","QH","3H","9H")
-//                .collect(Collectors.toList());;
+        cardsInGame=Stream.of("2H", "AH", "KH", "6H","8C","10S","QH","3H","9H")
+                .collect(Collectors.toList());;
 
 
 //        проверка на высший Стрит
@@ -629,6 +629,20 @@ public class CurrentDealer implements Dealer{
 
     @Override
     public PokerResult decideWinner(Board board) throws InvalidPokerBoardException {
+
+    //проверка совпадений доски с заданными диллером картами
+    String [] boardCheker ={board.getPlayerOne(), board.getPlayerTwo(), board.getFlop(), board.getTurn(), board.getRiver()};
+    List<String> charsBoard = new ArrayList<>();
+    for(String boardString :boardCheker) {charsBoard.addAll(Arrays.asList(boardString.split("")));}
+    int cardstens=0;
+    List <String> cardsInGame2=new ArrayList<>();
+    for(int i=0;i<cardsInGame.size();i++)
+    {
+        int iterator=i*2+cardstens;
+        if(charsBoard.get(iterator).equals("1")){cardstens++;cardsInGame.set(i,"10"+charsBoard.get(iterator+2));}
+        else
+        cardsInGame.set(i,charsBoard.get(iterator)+charsBoard.get(iterator+1));
+    }
 
     SetterPointsPlayer(playerOneScore,0);
     SetterPointsPlayer(playerTwoScore,2);
